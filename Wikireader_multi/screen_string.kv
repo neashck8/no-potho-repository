@@ -1,0 +1,77 @@
+ScreenManager:
+    MenuScreen:
+    ProfileScreen:
+    
+
+<MenuScreen>:
+
+    name:'menu'
+       
+    GridLayout:
+        rows: 2
+        
+        MDRaisedButton:
+            id: bueng
+            text: "ENG"
+            size_hint_x: 1 #from 0.0 to 1.0
+            on_press: 
+                app.change_lang("en")
+                root.manager.current = "profile"
+
+            
+        MDRaisedButton:
+            id: buit
+            text: "IT"
+            size_hint_x: 1 #from 0.0 to 1.0
+            on_press: 
+                app.change_lang("it")
+                root.manager.current = "profile"
+            
+<ProfileScreen>:
+
+    name:'profile'
+
+    GridLayout:
+        rows: 4
+        
+        MDLabel:
+            id: mdtit
+            text: "Welcome to the best app"
+            text_size: self.width, None
+            font_name:"raleway"
+            bold: True
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1
+            padding_x: 30
+            padding_y: 30
+            # font_style: "H1"
+            size_hint_y : None
+            height: self.texture_size[1]
+
+        
+        ScrollView:
+            MDLabel:
+                id: mdlab
+                text: ""
+                text_size: self.width, None
+                font_name:"raleway"
+                bold: False
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                padding_x: 30
+                padding_y: 2
+               # font_style: "H1"
+                size_hint_y : None
+                height: self.texture_size[1]
+                
+        MDRaisedButton:
+            id: mdbulang
+            text: "Language"
+            size_hint_x: 1 #from 0.0 to 1.0
+            on_press: root.manager.current = "menu"
+            
+        MDRaisedButton:
+            id: mdbu
+            text: "Random Search"
+            size_hint_x: 1 #from 0.0 to 1.0
+            on_press: app.random_search_button()
