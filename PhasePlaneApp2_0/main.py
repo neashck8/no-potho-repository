@@ -28,8 +28,10 @@ corner relative positions
 """
 
 
-
-    
+cos=np.cos
+sin=np.sin
+tan=np.tan
+exp=np.exp
 
 class Phase_plot(MDApp):
     
@@ -44,6 +46,7 @@ class Phase_plot(MDApp):
         self.title = "Phase Portrait"
         self.theme_cls.theme_style = "Dark" #Dark theme for the app
         self.init_plot()
+
         return Builder.load_file("string_layout.kv")
 
 
@@ -65,6 +68,7 @@ class Phase_plot(MDApp):
    
         
     def draw_flow(self,screen_coords):
+
         fig=self.fig
         w=self.w
         x_coord=(((list(screen_coords)[0]-0.12469)/0.775)-0.5)*2*w
@@ -73,7 +77,8 @@ class Phase_plot(MDApp):
             x_coord=w*np.sign(x_coord)
         if y_coord >w or y_coord<-w:
             y_coord=w*np.sign(y_coord)
-        y, x = np.mgrid[-w:w:100j, -w:w:100j]
+        y, x = np.mgrid[-w*1.5:w*1.5:200j, -w*1.5:w*1.5:200j]
+
         U = eval(self.xeq)
         V = eval(self.yeq)
 
@@ -93,10 +98,14 @@ class Phase_plot(MDApp):
    
             
     def equation_change(self):
-        textx=str_eqn(self.root.ids["textx"].text)
-        texty=str_eqn(self.root.ids["texty"].text)
-        self.xeq=textx.parse_eqn()
-        self.yeq=texty.parse_eqn()
+        if self.root.ids["textx"].text=="" or self.root.ids["texty"].text=="":
+            self.xeq="-1 - x**2 + y"
+            self.yeq="1 + x - y**2"
+        else:
+            textx=str_eqn(self.root.ids["textx"].text)
+            texty=str_eqn(self.root.ids["texty"].text)
+            self.xeq=textx.parse_eqn()
+            self.yeq=texty.parse_eqn()
         
 class str_eqn(str):   
     
@@ -121,7 +130,7 @@ class FullImage(Image):
 class MDButton(MDRaisedButton, TouchBehavior, MDApp):   
 
     def on_long_touch(self,touch,*args):
-        self.duration_long_touch = 0.1
+        self.duration_long_touch = 0.2
         return plotApp.draw_flow(touch.spos)
 
 class RestartBTN(MDRaisedButton):
